@@ -5,7 +5,10 @@
   "description": "Open any chess.com game and click on the extension to extract the moves",
   "permissions": ["activeTab", "scripting"],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icon.png"
+    }
   },
   "background": {
     "service_worker": "background.js"
