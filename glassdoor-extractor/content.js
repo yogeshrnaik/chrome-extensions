@@ -1,4 +1,7 @@
 // content.js
+let allQuestions = [];
+let allInterviewDetails = [];
+
 function extractInterviewQuestions() {
     const questions = [];
     document.querySelectorAll('[data-test="question-container"]').forEach(container => {
@@ -12,14 +15,38 @@ function extractInterviewQuestions() {
     return questions;
 }
 
+function extractInterviewDetails() {
+    const interviewDetails = [];
+    document.querySelectorAll('[data-test^="Interview"][data-test$="Process"]').forEach(container => {
+        let interviewText = container.querySelector('.interview-details_interviewText__YH2ZO').innerText.trim();
+        if (interviewText.endsWith("more")) {
+            interviewText = interviewText.slice(0, -9).trim();
+        }
+        console.log(`Interview Details: ${interviewText}`);
+        interviewDetails.push(interviewText);
+    });
+    return interviewDetails;
+}
+
+function handlePageLoad() {
+    const newQuestions = extractInterviewQuestions();
+    const newInterviewDetails = extractInterviewDetails();
+    if (newQuestions.length > 0) {
+        allQuestions = [...new Set([...allQuestions, ...newQuestions])];
+        chrome.runtime.sendMessage({ action: "updateQuestions", questions: allQuestions });
+    }
+    if (newInterviewDetails.length > 0) {
+        allInterviewDetails = [...new Set([...allInterviewDetails, ...newInterviewDetails])];
+        chrome.runtime.sendMessage({ action: "updateInterviewDetails", interviewDetails: newInterviewDetails });
+    }
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "extractQuestions") {
-        const questions = extractInterviewQuestions();
-        if (questions.length === 0) {
-            sendResponse({error: "No interview questions found."});
-            console.error("No interview questions found.");
-            return;
-        }
-        sendResponse({questions});
+        handlePageLoad();
+        sendResponse({ questions: allQuestions });
     }
 });
+
+window.addEventListener('load', handlePageLoad);
+window.addEventListener('popstate', handlePageLoad);
