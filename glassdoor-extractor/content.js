@@ -3,7 +3,6 @@ function extractInterviewQuestions() {
     const questions = [];
     document.querySelectorAll('[data-test="question-container"]').forEach(container => {
         const questionText = container.querySelector('.interview-details_interviewText__YH2ZO').innerText.trim();
-        // log the question text with prefix
         console.log(`Question: ${questionText}`);
         questions.push(questionText);
     });

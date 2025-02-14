@@ -10,10 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     const questionsList = document.getElementById('questions');
                     questionsList.innerHTML = '';
+                    const questionsText = response.questions.join('\n');
                     response.questions.forEach(question => {
                         const li = document.createElement('li');
                         li.textContent = question;
                         questionsList.appendChild(li);
+                    });
+
+                    navigator.clipboard.writeText(questionsText).then(() => {
+                        console.log("Questions copied to clipboard.");
+                    }).catch(err => {
+                        console.error("Failed to copy questions to clipboard:", err);
                     });
                 });
             });
