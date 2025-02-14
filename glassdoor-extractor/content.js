@@ -37,7 +37,7 @@ function handlePageLoad() {
     }
     if (newInterviewDetails.length > 0) {
         allInterviewDetails = [...new Set([...allInterviewDetails, ...newInterviewDetails])];
-        chrome.runtime.sendMessage({ action: "updateInterviewDetails", interviewDetails: newInterviewDetails });
+        chrome.runtime.sendMessage({ action: "updateInterviewDetails", interviewDetails: allInterviewDetails });
     }
 }
 
@@ -45,6 +45,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "extractQuestions") {
         handlePageLoad();
         sendResponse({ questions: allQuestions });
+    }
+    if (request.action === "extractInterviewDetails") {
+        handlePageLoad();
+        sendResponse({ interviewDetails: allInterviewDetails });
     }
 });
 

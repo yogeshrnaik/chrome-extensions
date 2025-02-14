@@ -1,4 +1,3 @@
-// popup.js
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Extracting questions...");
     try {
@@ -9,6 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
                 updateQuestionsList(response.questions);
+            });
+
+            chrome.tabs.sendMessage(tabs[0].id, { action: "extractInterviewDetails" }, (response) => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error extracting interview details:", chrome.runtime.lastError.message);
+                    return;
+                }
+                updateInterviewDetailsList(response.questions);
             });
         });
     } catch (error) {
