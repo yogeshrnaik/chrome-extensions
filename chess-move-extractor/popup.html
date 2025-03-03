@@ -15,23 +15,33 @@
             font-size: 16px;
         }
 
+        .moves-container {
+            position: relative;
+        }
+
         pre {
             background: #f4f4f4;
             padding: 10px;
             border-radius: 5px;
+            margin: 0;
         }
 
-        button {
-            margin-top: 10px;
-            padding: 5px 10px;
+        .icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <h2>Chess Moves</h2>
-<pre id="moves">Loading...</pre>
-<button id="copyButton">Copy Moves</button>
-<button id="copyPgnButton">Copy PGN</button>
+<div class="moves-container">
+    <pre id="moves">Loading...</pre>
+    <img id="copyIcon" class="icon" src="copy-icon.png" alt="Copy Moves">
+</div>
 <script src="popup.js"></script>
 </body>
 </html>

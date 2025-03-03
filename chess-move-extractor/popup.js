@@ -18,22 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     });
 
-    document.getElementById("copyButton").addEventListener("click", () => {
+    document.getElementById("copyIcon").addEventListener("click", () => {
         const movesText = document.getElementById("moves").textContent;
         navigator.clipboard.writeText(movesText).then(() => {
             showTemporaryMessage("Moves copied to clipboard!");
         }).catch(err => {
             console.error("Failed to copy moves: ", err);
-        });
-    });
-
-    document.getElementById("copyPgnButton").addEventListener("click", () => {
-        const movesText = document.getElementById("moves").textContent;
-        const pgnText = `[Event "Chess Game"]\n[Site "Chess.com"]\n\n${movesText}`;
-        navigator.clipboard.writeText(pgnText).then(() => {
-            showTemporaryMessage("PGN copied to clipboard!");
-        }).catch(err => {
-            console.error("Failed to copy PGN: ", err);
         });
     });
 });
